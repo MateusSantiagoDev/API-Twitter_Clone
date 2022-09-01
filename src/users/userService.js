@@ -6,4 +6,6 @@ const createService = async (body) => await userModel.create(body);
 
 const findAllService = async () => await userModel.find(); 
 
-module.exports = {findByEmailService, createService, findAllService};
+const findByIdUserservice = async (userId) => userModel.findById(userId);
+
+module.exports = {findByEmailService, createService, findAllService, findByIdUserservice};
