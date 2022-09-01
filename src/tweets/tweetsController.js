@@ -14,9 +14,30 @@ const createTweetController = async (req, res) => {
         });
 
     } catch (err) {
-        res.status(500).send({ message: err.message });
+       return  res.status(500).send({ message: err.message });
     }
 
 };
 
-module.exports = { createTweetController };
+const findAllTweetController = async (_, res) => {
+    try{
+        const tweets = await tweetService.findAllTweetService();
+        if(tweets.length === 0){
+            return res.status(400).send({ message: "Não existe tweets" });
+        }
+        return res.status(200).send({
+            results: tweets.map(tweet => ({
+                id: tweet._id,
+                message: tweet.message,
+                likes: tweet.likes.length,
+                comments: tweet.comments.length,
+                retweets: tweet.retweets.length,               
+            }))
+        });
+    } catch (err) {
+        return  res.status(500).send({ message: err.message });
+    }
+
+};
+
+module.exports = { createTweetController, findAllTweetController };
